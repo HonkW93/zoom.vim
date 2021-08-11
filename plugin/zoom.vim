@@ -20,17 +20,33 @@ nmap - :ZoomOut<CR>
 
 " guifont size + 1
 function! s:ZoomIn()
-  let l:fsize = substitute(&guifont, '^.*:h\([^:]*\).*$', '\1', '')
+  if has('unix')
+      let l:fsize = substitute(&guifont, '^.*\s\(\d\+\).*$', '\1', '')
+  else
+      let l:fsize = substitute(&guifont, '^.*:h\([^:]*\).*$', '\1', '')
+  endif
   let l:fsize += 1
-  let l:guifont = substitute(&guifont, ':h\([^:]*\)', ':h' . l:fsize, '')
+  if has('unix')
+      let guifont = substitute(&guifont, '\s\d\+', ' ' . l:fsize, '')
+  else
+      let l:guifont = substitute(&guifont, ':h\([^:]*\)', ':h' . l:fsize, '')
+  endif
   let &guifont = l:guifont
 endfunction
 
 " guifont size - 1
 function! s:ZoomOut()
-  let l:fsize = substitute(&guifont, '^.*:h\([^:]*\).*$', '\1', '')
+  if has('unix')
+      let l:fsize = substitute(&guifont, '^.*\s\(\d\+\).*$', '\1', '')
+  else
+      let l:fsize = substitute(&guifont, '^.*:h\([^:]*\).*$', '\1', '')
+  endif
   let l:fsize -= 1
-  let l:guifont = substitute(&guifont, ':h\([^:]*\)', ':h' . l:fsize, '')
+  if has('unix')
+      let guifont = substitute(&guifont, '\s\d\+', ' ' . l:fsize, '')
+  else
+      let l:guifont = substitute(&guifont, ':h\([^:]*\)', ':h' . l:fsize, '')
+  endif
   let &guifont = l:guifont
 endfunction
 
